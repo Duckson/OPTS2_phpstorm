@@ -1,0 +1,90 @@
+.action-glyph:hover {
+    color: #aeaeae;
+    cursor: pointer;
+    text-decoration: none;
+}
+.action-glyph{
+    color: black;
+}
+.glyph_td{
+    width: 75px;
+}
+.h3{
+    font-size: 24px;
+    text-align: center;
+}
+.button-create{
+    margin-bottom: 5px;
+}
+.marg-sides-10{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.footer {
+    height: 60px;
+    width: 100%;
+    background-color: #f5f5f5;
+}
+.text-muted {
+    margin: 20px 0;
+}
+.body-wrap{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.wrap{
+    flex: 1;
+    width: 100%;
+}
+.filter-cb{
+    width: 20px;
+    height: 20px;
+}
+.vert-center{
+    vertical-align: 5px;
+}
+.btn-center{
+    display: block;
+    margin: 0 auto;
+}
+.form-error{
+    color: #b80000;
+}
+.form-glyph{
+    margin-bottom: 0; !important;
+}
+.btn-glyph{
+    background-color: inherit;
+    padding: inherit;
+    border: none;
+}
+.well-light{
+    background-color: #fafafa;
+}
+.radio-table{
+    width: 15px;
+    height: 15px;
+}
+.div-radio{
+    overflow: hidden;
+    flex-grow: 0;
+    width: 32%;
+    margin: 5px;
+    border: solid 1px #a3a3a3;
+    border-radius: 2px;
+    word-break: break-all;
+}
+.div-radio:hover{
+    background-color: #c7fac4 !important;
+}
+.row-radio{
+    display: flex;
+    flex-direction: row;
+}
+#company-name{
+    width: 40%;
+}
+.radio{
+    display: inline;
+}

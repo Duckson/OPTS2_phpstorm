@@ -1,0 +1,1 @@
+<footer class="footer"><div class="container pull-right"><p class="text-muted pull-right">Footer Ltd. 2016</p></div></footer>
