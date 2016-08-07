@@ -17,7 +17,7 @@ if (!empty($_GET['id'])) {
     ]);
     while ($row =  $prep->fetch()) {
         $apps[] = $row;
-        $query = $sql->query('SELECT students.name, students.login FROM students WHERE students.login IN (SELECT student_login from ) LIMIT 4');
+        $query = $sql->query('SELECT students.name, students.login FROM students WHERE students.login IN (SELECT student_login from 111) LIMIT 4');
     }
 } else $error = 'Произошла ошибка отображения страницы';
 
