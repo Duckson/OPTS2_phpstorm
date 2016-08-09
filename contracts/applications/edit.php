@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
     <div class="row content">
         <div class="marg-sides-10">
             <h3>Редактировать приложение</h3>
-            <form action="../view.php" method="post">
+            <form action="edit.php" method="post">
                 <div class="well well-lg">
                     <div class="row">
                         <div class="col-sm-6">

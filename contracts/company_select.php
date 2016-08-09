@@ -42,6 +42,7 @@ if (empty($where)) {
     $prep->execute();
     $pagination->setItemsCount($prep->fetch()[0]);
 }
+$result_count = count($result);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
@@ -69,14 +70,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
             <? endif; ?>
             <div class="div-radio" id="<?= $row['id'] ?>"><input type="radio" class="radio"  name="company" value="<?= $row['id'] ?>"
                                          > <?= $row['name'] ?></div>
-            <? if ($counter % 3 == 0): ?>
+            <? if (($counter % 3 == 0) || ($counter == $result_count)): ?>
                 <?php $is_open = false ?>
                 </div>
             <? endif; ?>
         <? endforeach; ?>
-        <? if($is_open == true): ?>
-            </div>
-        <? endif; ?>
     <?= $pagination->getPagesStr() ?>
 
     <br>
