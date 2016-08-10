@@ -4,6 +4,15 @@ $title = 'ОПТС - Выбор студентов';
 $step_one = $step_two = $step_tree = false;
 $counter = 0;
 
+function getFaculty(){
+    global $sql;
+    $prep = $sql->prepare('SELECT name FROM faculties WHERE id=:id');
+    $prep->execute([
+        ':id' => $_GET['faculty']
+    ]);
+    return $prep->fetch()[0];
+}
+
 if (empty($_GET['action']) || (($_GET['action'] == 'edit') && empty($_GET['id']))) $error = 'Ошибка отображения страницы';
 else {
     if (!empty($_GET['students'])) {
@@ -25,11 +34,7 @@ else {
             $result[] = $row;
         }
 
-        $prep = $sql->prepare('SELECT name FROM faculties WHERE id=:id');
-        $prep->execute([
-            ':id' => $_GET['faculty']
-        ]);
-        $faculty = $prep->fetch()[0];
+        $faculty = getFaculty();
 
         $prep = $sql->prepare('SELECT name FROM student_groups WHERE id=:id');
         $prep->execute([
@@ -47,11 +52,7 @@ else {
             $result[] = $row;
         }
 
-        $prep = $sql->prepare('SELECT name FROM faculties WHERE id=:id');
-        $prep->execute([
-            ':id' => $_GET['faculty']
-        ]);
-        $faculty = $prep->fetch()[0];
+        $faculty = getFaculty();
     } else {
         $step_one = true;
 
