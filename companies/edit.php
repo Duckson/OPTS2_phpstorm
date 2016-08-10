@@ -27,6 +27,7 @@ if (!empty($_GET['id'])) {
     $prep->execute();
     $result = $prep->fetch();
 } else $error = 'Произошла ошибка отображения страницы';
+
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 

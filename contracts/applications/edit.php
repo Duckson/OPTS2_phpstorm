@@ -1,6 +1,7 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Редактирование приложения';
+
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 

@@ -1,5 +1,5 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Создание компании';
 if (!empty($_POST) && empty($_POST['c_name'])) $error = 'Не правильно заполнена форма';
 elseif(!empty($_POST)) {

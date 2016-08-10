@@ -1,5 +1,5 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Просмотр компании';
 if (!empty($_GET['id'])) {
     $prep = $sql->prepare('SELECT name, telephone, address, representative, description FROM companies WHERE id=:id');
@@ -7,6 +7,7 @@ if (!empty($_GET['id'])) {
     $prep->execute();
     $result = $prep->fetch();
 } else $error = 'Произошла ошибка отображения страницы';
+
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 

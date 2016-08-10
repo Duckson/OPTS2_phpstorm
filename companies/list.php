@@ -1,5 +1,5 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/pagination.php');
 $title = 'ОПТС - Список компаний';
 $pagination = new Pagination(3, $_GET, $_SERVER['PHP_SELF']);

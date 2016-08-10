@@ -24,7 +24,7 @@ $title = 'ОПТС - Вход';
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">ОПТС</a>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </nav>
     </div>
     <div class="row content">
