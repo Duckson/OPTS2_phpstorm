@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="MAMP_OPTS2">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="duckson.test.cnit/OPTS2" promptOnLocalOverwrite="false">
     <serverData>
       <paths name="MAMP">
         <serverdata>
@@ -51,7 +51,14 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="duckson.test.cnit/OPTS2">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/OPTS2/" local="$PROJECT_DIR$" web="/OPTS2/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
-    <option name="myAutoUpload" value="ALWAYS" />
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>

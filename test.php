@@ -1,23 +1,11 @@
 <?php
-var_dump($_GET);
-?>
+include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 
-<form action="test.php" method="get">
-    <label>
-        1
-        <input type="checkbox" name="test[]" value="1">
-    </label>
-    <label>
-        2
-        <input type="checkbox" name="test[]" value="2">
-    </label>
-    <label>
-        3
-        <input type="checkbox" name="test[]" value="3">
-    </label>
-    <label>
-        4
-        <input type="checkbox" name="test[]" value="4">
-    </label>
-    <button type="submit">Submit</button>
-</form>
+$prep = $sql->query("INSERT INTO duckson_test.departments (name) VALUES ('test')");
+var_dump($sql->errorInfo());
+
+$prep = $sql->query('SELECT * FROM duckson_test.departments');
+while ($row = $prep->fetch()) {
+    $result[] = $row;
+}
+var_dump($sql->errorInfo());
