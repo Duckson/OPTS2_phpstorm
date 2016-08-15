@@ -9,7 +9,7 @@ if (!empty($_GET['id'])) {
         $prep->bindParam(':name', $_POST['e_name'], PDO::PARAM_STR);
         $prep->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
         $prep->execute();
-        header('Location: /OPTS2/practice_types/list.php?name=' . $_POST['e_name']);
+        header('Location: /OPTS2/practice_types/list.php');
     }
 
     $prep = $sql->prepare('SELECT name FROM practice_types WHERE id=:id');

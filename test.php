@@ -1,10 +1,8 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 
-$prep = $sql->query("INSERT INTO duckson_test.departments (name) VALUES ('test')");
-var_dump($sql->errorInfo());
 
-$prep = $sql->query('SELECT * FROM duckson_test.departments');
+$prep = $sql->prepare('SELECT * FROM departments WHERE name LIKE :name');
 while ($row = $prep->fetch()) {
     $result[] = $row;
 }

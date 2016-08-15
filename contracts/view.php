@@ -41,49 +41,53 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 <div class="row content">
     <div class="marg-sides-10">
         <? if (empty($error)): ?>
-        <h3>Просмотр контракта</h3>
-        <b>Компания:</b> <?= $contact['company'] ?><br>
-        <b>Дата заключения:</b> <?= $contact['start_date'] ?><br>
-        <b>Описание:</b> <?= $contact['description'] ?><br>
-        <br><span class="h3">Приложения к данному контракту</span><a href="applications/create.php?contract_id=<?= $_GET['id'] ?>"
-                                                                     class="btn btn-success pull-right button-create">Добавить
-            Приложение</a><br>
+            <h3>Просмотр контракта</h3>
+            <b>Компания:</b> <?= $contact['company'] ?><br>
+            <b>Дата заключения:</b> <?= $contact['start_date'] ?><br>
+            <b>Описание:</b> <?= $contact['description'] ?><br>
+            <br><span class="h3">Приложения к данному контракту</span><a
+                href="applications/create.php?contract_id=<?= $_GET['id'] ?>"
+                class="btn btn-success pull-right button-create">Добавить
+                Приложение</a><br>
             <? if (!empty($delete_error)): ?>
                 <span class="text-danger"><?= $delete_error ?></span><br>
             <? endif; ?>
             <? if (!empty($delete_success)): ?>
                 <span class="text-success"><?= $delete_success ?></span><br>
             <? endif; ?>
-        <table class="table table-hover table-condensed table-bordered">
-            <tr>
-                <th>Дата начала практики</th>
-                <th>Дата окончания практики</th>
-                <th>Тип практики</th>
-                <th>Студенты(показывается не более 4)</th>
-                <th class="glyph_td"></th>
-            </tr>
-            <? foreach ($apps as $app): ?>
+            <table class="table table-hover table-condensed table-bordered">
                 <tr>
-                    <td><?= $app['start_date'] ?></td>
-                    <td><?= $app['end_date'] ?></td>
-                    <td><?= $app['practice_type'] ?></td>
-                    <td>
-                        <ul>
-                            <? foreach ($app['students'] as $student): ?>
-                                <li><?= $student['name'] ?></li>
-                            <? endforeach; ?>
-                        </ul>
-                    </td>
-                    <td class="glyph_td">
-                        <form class="form-glyph" method="post" action="view.php?<?= http_build_query($_GET) ?>">
-                            <a href="applications/edit.php?id=<?= $app['id'] ?>&contract_id=<?= $_GET['id'] ?>"
-                               class="glyphicon glyphicon-pencil action-glyph"></a>
-                            <button type="submit" name="delete_id" value="<?= $app['id'] ?>" class="btn-glyph glyphicon glyphicon-remove action-glyph">
-                        </form>
-                    </td>
+                    <th>Дата начала практики</th>
+                    <th>Дата окончания практики</th>
+                    <th>Тип практики</th>
+                    <th>Студенты(показывается не более 4)</th>
+                    <th class="glyph_td"></th>
                 </tr>
-            <? endforeach; ?>
-        </table>
+                <? if (!empty($apps)): ?>
+                    <? foreach ($apps as $app): ?>
+                        <tr>
+                            <td><?= $app['start_date'] ?></td>
+                            <td><?= $app['end_date'] ?></td>
+                            <td><?= $app['practice_type'] ?></td>
+                            <td>
+                                <ul>
+                                    <? foreach ($app['students'] as $student): ?>
+                                        <li><?= $student['name'] ?></li>
+                                    <? endforeach; ?>
+                                </ul>
+                            </td>
+                            <td class="glyph_td">
+                                <form class="form-glyph" method="post" action="view.php?<?= http_build_query($_GET) ?>">
+                                    <a href="applications/edit.php?id=<?= $app['id'] ?>&contract_id=<?= $_GET['id'] ?>"
+                                       class="glyphicon glyphicon-pencil action-glyph"></a>
+                                    <button type="submit" name="delete_id" value="<?= $app['id'] ?>"
+                                            class="btn-glyph glyphicon glyphicon-remove action-glyph">
+                                </form>
+                            </td>
+                        </tr>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </table>
         <? else : ?>
             <?= $error ?>
             <a href="list.php" class="btn btn-primary">Вернутся к списку</a>

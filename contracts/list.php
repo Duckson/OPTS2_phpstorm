@@ -17,10 +17,11 @@ if (!empty($_GET['company'])) {
     $prep_vals[] = &$_GET['company'];
 }
 if (!empty($_GET['start_date'])) {
+    $start_date = '%' . $_GET['start_date'] . '%';
     $where[] = 'start_date LIKE :start_date';
     $prep_names[] = ':start_date';
     $prep_types[] = PDO::PARAM_STR;
-    $prep_vals[] = &$_GET['start_date'];
+    $prep_vals[] = &$start_date;
 }
 
 if (empty($where)) {
@@ -56,8 +57,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                     <input type="text" class="form-control" name="company" id="company" value="<?= $_GET['company'] ?>">
                 </div>
                 <div class="form-group">
-                    <label for="start_date">Дата заключения:</label>
-                    <input type="date" class="form-control" name="start_date" id="start_date"
+                    <label for="start_date">Год заключения:</label>
+                    <input type="text" class="form-control" name="start_date" id="start_date"
                            value="<?= $_GET['start_date'] ?>">
                 </div>
                 <input class="btn btn-primary" type="submit" value="Применить">

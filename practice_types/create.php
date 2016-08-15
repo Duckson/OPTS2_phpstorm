@@ -6,7 +6,7 @@ elseif(!empty($_POST)) {
     $prep = $sql->prepare('INSERT INTO practice_types (name) VALUES (:name)');
     $prep->bindParam(':name', $_POST['c_name'], PDO::PARAM_STR);
     $prep->execute();
-    header('Location: /OPTS2/practice_types/list.php?name=' . $_POST['c_name']);
+    header('Location: /OPTS2/practice_types/list.php');
 }
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
