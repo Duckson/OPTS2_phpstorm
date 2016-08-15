@@ -1,20 +1,20 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Выбор студентов';
-if (!empty($_GET['contract_id'])) {
-    $step_one = $step_two = $step_tree = false;
-    $counter = 0;
+$step_one = $step_two = $step_tree = false;
+$counter = 0;
 
-    function getFaculty()
-    {
-        global $sql;
-        $prep = $sql->prepare('SELECT name FROM faculties WHERE id=:id');
-        $prep->execute([
-            ':id' => $_GET['faculty']
-        ]);
-        return $prep->fetch()[0];
-    }
+function getFaculty()
+{
+    global $sql;
+    $prep = $sql->prepare('SELECT name FROM faculties WHERE id=:id');
+    $prep->execute([
+        ':id' => $_GET['faculty']
+    ]);
+    return $prep->fetch()[0];
+}
 
+if(!empty($_GET['contract_id'])) {
     if (empty($_GET['action']) || (($_GET['action'] == 'edit') && empty($_GET['id']))) $error = 'Произошла ошибка отображения страницы';
     else {
         if (!empty($_GET['students'])) {
@@ -24,7 +24,7 @@ if (!empty($_GET['contract_id'])) {
                     $_SESSION['create_students'][] = $student;
                 }
             }
-            header('Location: /OPTS2/contracts/applications/create.php?contract_id=' . $_GET['contract_id']);
+            header('Location: /OPTS2/contracts/applications/create.php?gotfromstudents=1&contract_id=' . $_GET['contract_id']);
         } elseif (!empty($_GET['group'])) {
             $step_tree = true;
 
@@ -79,7 +79,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
             <div class="well well-lg">
                 <form id="form" method="get" action="students.php">
                     <?= ($_GET['action'] == 'edit') ? '<input type="hidden" name="id" value="' . $_GET['id'] . '">' : '' ?>
-                    <? if (!empty($result)): ?> <!-- Данная конструкция - кондидат на вынос, займусь позже -->
+                    <? if (!empty($result)): ?>
                         <? foreach ($result as $row): ?>
                             <?php $counter++ ?>
                             <? if (($counter % 3) - 1 == 0): ?>
@@ -144,9 +144,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
             <b class="text-muted"><?= $faculty ?> <a href="students.php?action=<?= $_GET['action'] ?>"
                                                      class="glyphicon glyphicon-remove action-glyph"
                                                      data-toggle="tooltip" title="Отменить выбор факультета"></a> > </b>
-            <b class="text-muted"><?= $group ?> <a href="students.php?action=<?= $_GET['action'] ?>&faculty=<?= $_GET['faculty'] ?>"
-                                                   class="glyphicon glyphicon-remove action-glyph"
-                                                   data-toggle="tooltip" title="Отменить выбор группы"></a></b><br>
+            <b class="text-muted"><?= $group ?> <a
+                    href="students.php?action=<?= $_GET['action'] ?>&faculty=<?= $_GET['faculty'] ?>"
+                    class="glyphicon glyphicon-remove action-glyph"
+                    data-toggle="tooltip" title="Отменить выбор группы"></a></b><br>
             <div class="well well-lg">
                 <form id="form" method="get" action="students.php">
                     <?= ($_GET['action'] == 'edit') ? '<input type="hidden" name="id" value="' . $_GET['id'] . '">' : '' ?>

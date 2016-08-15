@@ -2,6 +2,12 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Создание приложения';
 
+if(!empty($_POST['gotostudents'])){ //условие выполнено
+    $_SESSION['create_post'] = $_POST;
+    header('Location: /OPTS2/contracts/applications/students.php?action=create&contract_id=' . $_GET['contract_id']);
+    die();
+}
+
 if (!empty($_GET['contract_id'])) {
     if (!empty($_GET['delete_id'])) {
         unset($_SESSION['create_students'][array_search($_GET['delete_id'], $_SESSION['create_students'])]);
@@ -38,6 +44,10 @@ if (!empty($_GET['contract_id'])) {
     }
 } else $critical_error = 'Произошла ошибка отображения страницы';
 
+if(!empty($_GET['gotfromstudents'])){
+    $_POST = $_SESSION['create_post'];
+}
+
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 
@@ -54,24 +64,23 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="c_start_date">Дата начала практики:</label>
-                                    <input type="date" class="form-control" name="c_start_date" id="c_start_date">
+                                    <input type="date" class="form-control" name="c_start_date" id="c_start_date" value="<?= $_POST['c_start_date'] ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="c_end_date">Дата окончания практики:</label>
-                                    <input type="date" class="form-control" name="c_end_date" id="c_end_date">
+                                    <input type="date" class="form-control" name="c_end_date" id="c_end_date" value="<?= $_POST['c_end_date'] ?>">
                                 </div>
                                 <label for="c_practice_type">Тип практики:</label>
                                 <select class="form-control" name="c_practice_type" id="c_practice_type">
                                     <? foreach ($practice_types as $row): ?>
-                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                        <option <?= ($_POST['c_practice_type'] == $row['id'])? 'selected': '' ?> value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                     <? endforeach; ?>
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <span class="h3">Студенты</span><a
-                                    href="students.php?action=create&contract_id=<?= $_GET['contract_id'] ?>"
+                                <span class="h3">Студенты</span><button type="submit" name="gotostudents" value="1"
                                     class="btn btn-success pull-right button-create">Добавить
-                                    Студента</a>
+                                    Студента</button>
                                 <table class="table table-hover table-condensed table-bordered">
                                     <tr>
                                         <th>ФИО</th>
@@ -95,7 +104,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                             </div>
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-primary" value="Создать приложение"> <!-- WIP -->
+                    <input type="submit" class="btn btn-primary" value="Создать приложение">
                 </form>
             <? else: ?>
                 <?= $critical_error ?>

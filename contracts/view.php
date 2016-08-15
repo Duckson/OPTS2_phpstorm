@@ -25,7 +25,7 @@ if (!empty($_GET['id'])) {
     ]);
     while ($row = $prep->fetch()) {
         $query = $sql->query('SELECT students.name FROM students WHERE students.login IN 
-                              (SELECT student_login FROM student_app_link WHERE app_id=' . $row['id'] . ') LIMIT 3');
+                              (SELECT student_login FROM student_app_link WHERE app_id=' . $row['id'] . ') LIMIT 4');
         while ($row2 = $query->fetch()) {
             $result[] = $row2;
         }
@@ -70,11 +70,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                             <td><?= $app['end_date'] ?></td>
                             <td><?= $app['practice_type'] ?></td>
                             <td>
-                                <ul>
-                                    <? foreach ($app['students'] as $student): ?>
-                                        <li><?= $student['name'] ?></li>
-                                    <? endforeach; ?>
-                                </ul>
+                                <? if (!empty($app['students'])): ?>
+                                    <ul>
+                                        <? foreach ($app['students'] as $student): ?>
+                                            <li><?= $student['name'] ?></li>
+                                        <? endforeach; ?>
+                                    </ul>
+                                <? endif; ?>
                             </td>
                             <td class="glyph_td">
                                 <form class="form-glyph" method="post" action="view.php?<?= http_build_query($_GET) ?>">
