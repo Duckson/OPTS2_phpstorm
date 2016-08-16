@@ -50,7 +50,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 
 <? if (empty($error)): ?>
-    <script src="/OPTS2/dependencies/form_button.js"></script>
     <div class="row content marg-sides-10">
         <h2><?= ($_GET['action'] == 'create') ? 'Создание' : 'Редактирование' ?> контракта</h2>
         <h3>Шаг 1: выбор компании</h3>
@@ -74,10 +73,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                             <?php $is_open = true ?>
                             <div class="row-radio">
                         <? endif; ?>
-                        <div class="div-radio" id="<?= $row['id'] ?>">
+                        <label class="div-radio">
                             <input type="radio" class="radio" name="company" value="<?= $row['id'] ?>">
                             <?= $row['name'] ?>
-                        </div>
+                        </label>
                         <? if (($counter % 3 == 0) || ($counter == $result_count)): ?>
                             <?php $is_open = false ?>
                             </div>

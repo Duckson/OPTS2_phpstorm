@@ -71,7 +71,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 
 <? if (empty($error)): ?>
-    <script src="/OPTS2/dependencies/form_button.js"></script>
     <div class="row content marg-sides-10">
         <h2>Добавление студентов к приложению</h2>
         <? if ($step_one === true): ?>
@@ -86,10 +85,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                 <?php $is_open = true ?>
                                 <div class="row-radio">
                             <? endif; ?>
-                            <div class="div-radio" id="<?= $row['id'] ?>">
+                            <label class="div-radio">
                                 <input type="radio" class="radio" name="faculty" value="<?= $row['id'] ?>">
                                 <?= $row['name'] ?>
-                            </div>
+                            </label>
                             <? if (($counter % 3 == 0) || ($counter == $result_count)): ?>
                                 <?php $is_open = false ?>
                                 </div>
@@ -107,7 +106,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
         <? endif; ?>
         <? if ($step_two === true): ?>
             <h3>Шаг 2: Выбор группы</h3>
-            <b class="text-muted"><?= $faculty ?> <a href="students.php?action=<?= $_GET['action'] ?>"
+            <b class="text-muted"><?= $faculty ?> <a href="students.php?action=<?= $_GET['action'] ?>&contract_id=<?= $_GET['contract_id'] ?>""
                                                      class="glyphicon glyphicon-remove action-glyph"></a></b><br>
             <div class="well well-lg">
                 <form id="form" method="get" action="students.php">
@@ -119,10 +118,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                 <?php $is_open = true ?>
                                 <div class="row-radio">
                             <? endif; ?>
-                            <div class="div-radio" id="<?= $row['id'] ?>">
+                            <label class="div-radio">
                                 <input type="radio" class="radio" name="group" value="<?= $row['id'] ?>">
                                 <?= $row['name'] ?>
-                            </div>
+                            </label>
                             <? if (($counter % 3 == 0) || ($counter == $result_count)): ?>
                                 <?php $is_open = false ?>
                                 </div>
@@ -141,11 +140,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
         <? endif; ?>
         <? if ($step_tree === true): ?>
             <h3>Шаг 3: Выбор студента(-ов)</h3>
-            <b class="text-muted"><?= $faculty ?> <a href="students.php?action=<?= $_GET['action'] ?>"
+            <b class="text-muted"><?= $faculty ?> <a href="students.php?action=<?= $_GET['action'] ?>&contract_id=<?= $_GET['contract_id'] ?>"
                                                      class="glyphicon glyphicon-remove action-glyph"
                                                      data-toggle="tooltip" title="Отменить выбор факультета"></a> > </b>
             <b class="text-muted"><?= $group ?> <a
-                    href="students.php?action=<?= $_GET['action'] ?>&faculty=<?= $_GET['faculty'] ?>"
+                    href="students.php?action=<?= $_GET['action'] ?>&faculty=<?= $_GET['faculty'] ?>&contract_id=<?= $_GET['contract_id'] ?>""
                     class="glyphicon glyphicon-remove action-glyph"
                     data-toggle="tooltip" title="Отменить выбор группы"></a></b><br>
             <div class="well well-lg">
@@ -158,10 +157,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                 <?php $is_open = true ?>
                                 <div class="row-radio">
                             <? endif; ?>
-                            <div class="div-radio" id="<?= $row['id'] ?>">
+                            <label class="div-radio">
                                 <input type="checkbox" class="radio" name="students[]" value="<?= $row['id'] ?>">
                                 <?= $row['name'] ?>
-                            </div>
+                            </label>
                             <? if (($counter % 3 == 0) || ($counter == $result_count)): ?>
                                 <?php $is_open = false ?>
                                 </div>

@@ -95,3 +95,15 @@
 .marg-right-20{
     margin-right: 20px;
 }
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+#student-button{
+    width: 180px;
+    height: 35px;
+}
