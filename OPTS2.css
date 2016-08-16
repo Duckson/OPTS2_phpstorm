@@ -106,4 +106,8 @@
 #student-button{
     width: 180px;
     height: 35px;
+    margin-left: 20px;
+}
+.padding-none{
+    padding: 0;
 }

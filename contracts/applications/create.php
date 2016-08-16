@@ -63,9 +63,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <span class="h3">Добавить студента</span>
+                                <div class="marg-bottom-20">
+                                    <span class="h3">Добавить студента</span>
+                                </div>
                                 <div class="flex-column">
-                                    <div class="form-group col-sm-6">
+                                    <div class="padding-none form-group col-sm-6">
                                         <select class="form-control" id="faculty-select">
                                             <option value="0">Выберите факультет</option>
                                             <? foreach ($faculties as $row): ?>
@@ -73,13 +75,14 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                             <? endforeach; ?>
                                         </select>
                                     </div>
-                                    <div style="display: none" class="form-group col-sm-6" id="group-select-div">
+                                    <div style="display: none" class="padding-none form-group col-sm-6"
+                                         id="group-select-div">
                                         <select class="form-control" id="group-select">
                                             <option value="0">Выберите группу</option>
                                         </select>
                                     </div>
                                     <div style="display: none" class="flex-row" id="student-select-div">
-                                        <div class="form-group col-sm-6">
+                                        <div class="padding-none form-group col-sm-6">
                                             <select class="form-control" id="student-select">
                                                 <option value="0">Выберите студента</option>
                                             </select>
@@ -88,7 +91,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                                     </div>
                                     <br>
                                 </div>
-                                <span class="h3">Список студентов</span>
+                                <div class="marg-bottom-20">
+                                    <span class="h3">Список студентов</span>
+                                </div>
                                 <table id="students-table" class="table table-hover table-condensed table-bordered">
                                     <tr>
                                         <th>ФИО</th>
