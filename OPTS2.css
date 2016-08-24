@@ -111,3 +111,9 @@
 .padding-none{
     padding: 0;
 }
+.glyph-report-bad{
+    color: red;
+}
+.glyph-report-good{
+    color: green;
+}

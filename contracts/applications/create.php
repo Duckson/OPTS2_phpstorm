@@ -4,7 +4,7 @@ $title = 'ОПТС - Создание приложения';
 $counter = 0;
 
 if (!empty($_GET['contract_id'])) {
-    if (!empty($_POST) && (empty($_POST['c_start_date'] || empty($_POST['c_end_date']) || empty($_POST['c_practice_type']) || empty($_SESSION['create_students']))))
+    if (!empty($_POST) && (empty($_POST['c_start_date'] || empty($_POST['c_end_date']) || empty($_POST['c_practice_type']))))
         $error = 'Не правильно заполнена форма';
     elseif (!empty($_POST)) {
         $prep = $sql->prepare('INSERT INTO applications (contract_id, start_date, end_date, practice_type_id) VALUES (?, ?, ?, ?)');
@@ -14,7 +14,6 @@ if (!empty($_GET['contract_id'])) {
             $prep = $sql->prepare('INSERT INTO student_app_link (student_login, app_id) VALUES (?, ?)');
             $prep->execute([$student, $id]);
         }
-        unset($_SESSION['create_students']);
         header('Location: /OPTS2/contracts/view.php?id=' . $_GET['contract_id']);
     }
 
@@ -46,19 +45,16 @@ include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="c_start_date">Дата начала практики:</label>
-                                    <input type="date" class="form-control" name="c_start_date" id="c_start_date"
-                                           value="<?= $_POST['c_start_date'] ?>">
+                                    <input type="date" class="form-control" name="c_start_date" id="c_start_date">
                                 </div>
                                 <div class="form-group">
                                     <label for="c_end_date">Дата окончания практики:</label>
-                                    <input type="date" class="form-control" name="c_end_date" id="c_end_date"
-                                           value="<?= $_POST['c_end_date'] ?>">
+                                    <input type="date" class="form-control" name="c_end_date" id="c_end_date">
                                 </div>
                                 <label for="c_practice_type">Тип практики:</label>
                                 <select class="form-control" name="c_practice_type" id="c_practice_type">
                                     <? foreach ($practice_types as $row): ?>
-                                        <option <?= ($_POST['c_practice_type'] == $row['id']) ? 'selected' : '' ?>
-                                            value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                     <? endforeach; ?>
                                 </select>
                             </div>

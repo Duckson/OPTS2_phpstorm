@@ -2,57 +2,146 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/session.php');
 $title = 'ОПТС - Редактирование приложения';
 
+if (!(empty($_GET['contract_id'] || $_GET['id']))) {
+    if (!empty($_POST) && (empty($_POST['c_start_date'] || empty($_POST['c_end_date']) || empty($_POST['c_practice_type']))))
+        $error = 'Не правильно заполнена форма';
+    elseif (!empty($_POST)) {
+        $prep = $sql->prepare('UPDATE applications
+                               SET contract_id=?, start_date=?, end_date=?, practice_type_id=?
+                               WHERE id=?');
+        $prep->execute([$_GET['contract_id'], $_POST['c_start_date'], $_POST['c_end_date'], $_POST['c_practice_type'], $_GET['id']]);
+
+        $prep = $sql->prepare('DELETE FROM student_app_link WHERE app_id=?');
+        $prep->execute([$_GET['id']]);
+
+        foreach ($_POST['students'] as $student) {
+            $prep = $sql->prepare('INSERT INTO student_app_link (student_login, app_id) VALUES (?, ?)');
+            $prep->execute([$student, $_GET['id']]);
+        }
+        header('Location: /OPTS2/contracts/view.php?id=' . $_GET['contract_id']);
+    }
+
+    $prep = $sql->prepare('SELECT applications.start_date AS start_date, applications.end_date AS end_date, practice_types.name AS practice_type,
+                           practice_types.id AS practice_id FROM applications
+                           LEFT JOIN practice_types ON practice_types.id=applications.practice_type_id
+                           WHERE applications.id=:id');
+    $prep->execute([
+        ':id' => $_GET['id']
+    ]);
+    $app = $prep->fetch();
+
+    $query = $sql->query('SELECT id, name FROM practice_types');
+    while ($row = $query->fetch()) {
+        $practice_types[] = $row;
+    }
+
+    $prep= $sql->prepare('SELECT students.name as name, students.login as id, student_groups.name as student_group FROM students
+                          LEFT JOIN student_groups ON students.group_id = student_groups.id
+                          WHERE students.login IN (SELECT student_login FROM student_app_link WHERE app_id=:id)');
+    $prep->execute([
+        ':id' => $_GET['id']
+    ]);
+    while ($row = $prep->fetch()) {
+        $students[] = $row;
+    }
+
+    $query = $sql->query('SELECT id, name FROM faculties');
+    while ($row = $query->fetch()) {
+        $faculties[] = $row;
+    }
+} else $critical_error = 'Произошла ошибка отображения страницы';
+
 include $_SERVER['DOCUMENT_ROOT'] . '/OPTS2/dependencies/header.php';
 ?>
 
     <div class="row content">
-        <div class="marg-sides-10">
-            <h3>Редактировать приложение</h3>
-            <form action="edit.php" method="post">
-                <div class="well well-lg">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="e_start_date">Дата начала практики:</label>
-                                <input type="date" class="form-control" name="e_start_date" value="2015-11-13"
-                                       id="e_start_date">
+        <script src="/OPTS2/dependencies/student_select.js"></script>
+        <div id="div-app-create" class="marg-sides-10">
+            <? if (empty($critical_error)): ?>
+                <h3>Редактирование приложения</h3>
+                <? if (isset($error)): ?>
+                    <span class="form-error"><?= $error ?></span>
+                <? endif ?>
+                <form action="edit.php?<?= http_build_query($_GET) ?>" method="post">
+                    <div class="well well-lg">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="c_start_date">Дата начала практики:</label>
+                                    <input type="date" class="form-control" name="c_start_date" id="c_start_date"
+                                           value="<?= $app['start_date'] ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="c_end_date">Дата окончания практики:</label>
+                                    <input type="date" class="form-control" name="c_end_date" id="c_end_date"
+                                           value="<?= $app['end_date'] ?>">
+                                </div>
+                                <label for="c_practice_type">Тип практики:</label>
+                                <select class="form-control" name="c_practice_type" id="c_practice_type">
+                                    <? foreach ($practice_types as $row): ?>
+                                        <option <?= ($app['practice_id'] == $row['id']) ? 'selected' : '' ?>
+                                            value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                    <? endforeach; ?>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label for="e_end_date">Дата окончания практики:</label>
-                                <input type="date" class="form-control" name="e_end_date" value="2016-02-02"
-                                       id="e_end_date">
+                            <div class="col-sm-6">
+                                <div class="marg-bottom-20">
+                                    <span class="h3">Добавить студента</span>
+                                </div>
+                                <div class="flex-column">
+                                    <div class="padding-none form-group col-sm-6">
+                                        <select class="form-control" id="faculty-select">
+                                            <option value="0">Выберите факультет</option>
+                                            <? foreach ($faculties as $row): ?>
+                                                <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                            <? endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div style="display: none" class="padding-none form-group col-sm-6"
+                                         id="group-select-div">
+                                        <select class="form-control" id="group-select">
+                                            <option value="0">Выберите группу</option>
+                                        </select>
+                                    </div>
+                                    <div style="display: none" class="flex-row" id="student-select-div">
+                                        <div class="padding-none form-group col-sm-6">
+                                            <select class="form-control" id="student-select">
+                                                <option value="0">Выберите студента</option>
+                                            </select>
+                                        </div>
+                                        <span class="btn btn-primary" id="student-button">Добавить студента</span>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="marg-bottom-20">
+                                    <span class="h3">Список студентов</span>
+                                </div>
+                                <table id="students-table" class="table table-hover table-condensed table-bordered">
+                                    <tr>
+                                        <th>ФИО</th>
+                                        <th>Группа</th>
+                                        <th class="glyph_td"></th>
+                                    </tr>
+                                    <? foreach ($students as $row): ?>
+                                        <tr id="student-tr-<?= $row['id'] ?>">
+                                            <td><?= $row['name'] ?></td>
+                                            <td><?= $row['student_group'] ?></td>
+                                            <td class="glyph_td">
+                                                <span class="glyphicon glyphicon-remove action-glyph" onclick="deleteStudent(<?= $row['id'] ?>)"></span>
+                                            </td>
+                                            <input type="hidden" name="students[]" value="<?= $row['id'] ?>">
+                                        </tr>
+                                    <? endforeach; ?>
+                                </table>
                             </div>
-                            <label for="e_practice_type">Тип практики:</label>
-                            <select class="form-control" name="e_practice_type" id="e_practice_type">
-                                <option value="spa">Спа</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <span class="h3">Студенты</span><a href="students.php"
-                                                               class="btn btn-success pull-right button-create">Добавить
-                                Студента</a>
-                            <table class="table table-hover table-condensed table-bordered">
-                                <tr>
-                                    <th>ФИО</th>
-                                    <th>Группа</th>
-                                    <th>Кафедра</th>
-                                    <th class="glyph_td"></th>
-                                </tr>
-                                <tr>
-                                    <td>Попкин Илья Васильев</td>
-                                    <td>П-23</td>
-                                    <td>ПрИТ</td>
-                                    <td class="glyph_td">
-                                        <a class="glyphicon glyphicon-remove action-glyph"
-                                           onclick="alert('нинада')"></a>
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
                     </div>
-                </div>
-                <input type="submit" class="btn btn-primary" value="Сохранить приложение">
-            </form>
+                    <input type="submit" class="btn btn-primary" value="Сохранить приложение">
+                </form>
+            <? else: ?>
+                <?= $critical_error ?>
+                <a href="/OPTS2/contracts/list.php" class="btn btn-primary">Вернутся к списку контрактов</a>
+            <? endif; ?>
         </div>
     </div>
     </div>

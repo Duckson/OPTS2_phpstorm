@@ -16,7 +16,7 @@ class Pagination
     }
 
     public function setItemsCount($count){
-        $this->items_count = $count;
+        $this->items_count = intval($count);
     }
 
     public function getLimitStr(){

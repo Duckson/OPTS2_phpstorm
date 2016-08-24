@@ -55,17 +55,22 @@ $(document).ready(function () {
         if (id != 0 && $.inArray(id, students) == -1) {
             $('#students-table').append(
                 '<tr id="student-tr-' + id + '">' +
+
                 '<td>' +
                 $("#student-select option:selected").text() +
                 '</td>' +
+
                 '<td>' +
                 $("#group-select option:selected").text() +
                 '</td>' +
+
                 '<td>' +
                 '<span class="glyphicon glyphicon-remove action-glyph" onclick="deleteStudent(' + id + ')"></span>' +
                 '</td>' +
-                '</tr>' +
-                '<input type="hidden" name="students[]" value="' + id + '">'
+
+                '<input type="hidden" name="students[]" value="' + id + '">'+
+
+                '</tr>'
             );
             students[id] = id;
         }
