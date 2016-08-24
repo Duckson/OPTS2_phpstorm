@@ -30,9 +30,7 @@ if (!empty($_GET['is_ok'])) {
 
 $limit_str = $pagination->getLimitStr();
 
-$query_str = 'SELECT students.name AS name, student_groups.name AS student_group, departments.name AS department,
-                      t_count.count AS is_ok
-                      FROM students
+$str = '              FROM students
                       LEFT JOIN student_groups ON students.group_id = student_groups.id
                       LEFT JOIN curricula ON student_groups.curricilum_id = curricula.id
                       LEFT JOIN departments ON curricula.department_id = departments.id
@@ -42,20 +40,14 @@ $query_str = 'SELECT students.name AS name, student_groups.name AS student_group
                                  GROUP BY student_login) AS t_count 
                       ON t_count.student_login=students.login';
 
-$query_count_str = 'SELECT count(*)
-                      FROM students
-                      LEFT JOIN student_groups ON students.group_id = student_groups.id
-                      LEFT JOIN curricula ON student_groups.curricilum_id = curricula.id
-                      LEFT JOIN departments ON curricula.department_id = departments.id
-                      LEFT JOIN (SELECT count(student_login) AS count, student_login FROM student_app_link
-                                 LEFT JOIN applications ON student_app_link.app_id = applications.id
-                                 WHERE applications.end_date > CURDATE()
-                                 GROUP BY student_login) AS t_count 
-                      ON t_count.student_login=students.login';
+$query_str = 'SELECT students.name AS name, student_groups.name AS student_group, departments.name AS department,
+                      t_count.count AS is_ok ';
+
+$query_count_str = 'SELECT count(*)';
 $order_str = ' ORDER BY students.name';
 
 if (empty($where)) {
-    $query = $sql->query($query_str . $order_str . $limit_str);
+    $query = $sql->query($query_str . $str . $order_str . $limit_str);
     while ($row = $query->fetch()) {
         $result[] = $row;
     }
@@ -66,7 +58,7 @@ if (empty($where)) {
 } else {
     $where_str = '';
     $where_str = ' WHERE ' . join(' AND ', $where);
-    $prep = $sql->prepare($query_str . $where_str . $order_str . $limit_str);
+    $prep = $sql->prepare($query_str . $str . $where_str . $order_str . $limit_str);
     if (!empty($prep_vals))
     foreach ($prep_vals as $key => $value) {
         $prep->bindParam($prep_names[$key], $value, $prep_types[$key]);
@@ -76,7 +68,7 @@ if (empty($where)) {
         $result[] = $row;
     }
 
-    $prep = $sql->prepare($query_count_str . $where_str);
+    $prep = $sql->prepare($query_count_str . $str . $where_str);
     if (!empty($prep_vals))
         foreach ($prep_vals as $key => $value) {
             $prep->bindParam($prep_names[$key], $value, $prep_types[$key]);
